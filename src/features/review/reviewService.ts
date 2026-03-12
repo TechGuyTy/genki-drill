@@ -1,4 +1,5 @@
 import { db } from "../../db/db";
+import { getAllItems } from "../../data";
 import type { StudyItem } from "../../types/study";
 
 export async function addIncorrectItemToReview(itemId: string): Promise<void> {
@@ -26,7 +27,30 @@ export async function getReviewItems(allItems: StudyItem[]): Promise<StudyItem[]
   const queue = await db.reviewQueue.orderBy("priority").reverse().toArray();
   const itemMap = new Map(allItems.map((item) => [item.id, item]));
 
-  return queue
-    .map((entry) => itemMap.get(entry.itemId))
-    .filter((item): item is StudyItem => Boolean(item));
+  const missingIds: string[] = [];
+  const items: StudyItem[] = [];
+
+  for (const entry of queue) {
+    const item = itemMap.get(entry.itemId);
+    if (item) {
+      items.push(item);
+    } else {
+      missingIds.push(entry.itemId);
+    }
+  }
+
+  if (missingIds.length > 0) {
+    await db.reviewQueue.bulkDelete(missingIds);
+  }
+
+  return items;
+}
+
+export async function removeFromReviewQueue(itemId: string): Promise<void> {
+  await db.reviewQueue.delete(itemId);
+}
+
+export async function getReviewCount(): Promise<number> {
+  const items = await getReviewItems(getAllItems());
+  return items.length;
 }

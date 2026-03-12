@@ -1,0 +1,75 @@
+School: *だいがく / daigaku / college; university
+School: こうこう / kookoo / high school
+School: *がくせい / gakusee / student
+School: ~ねんせい / ... nensee / ...year student
+School: せんせい / sensee / teacher
+School: りゅうがくせい / ryuugakusee / international student
+
+Person: わたし / watashi / I
+Person: あなた / anata / you
+Person: あの人 / ano hito / that person
+Person: *さん / ... san / Mr./Ms....
+Person: *じん / ... jin / ... people
+Person: ともだち / tomodachi / friend
+
+Time: 今 / ima / now
+Time: *じ / ... ji / o'clock
+Time: *ふん / ... fun / minute
+Time: なんじ / nan ji / what time
+Time: *ご / ... go / ... language
+Time: *さい / ... sai / ... years old
+Time: なんさい / nan sai / how old
+Time: *~ばん / ... ban / number...
+
+Others: 名前 / namae / name
+Others: 何 / nani / what
+Others: 日本 / Nihon / Japan
+Others: アメリカ (no 家) / Amerika / U.S.A.
+Others: イギリス / Igirisu / Britain
+Others: ～語 / ~go / ... language
+Others: にほんご / nihongo / Japanese language
+Others: ちゅうごくご / chuugokugo / Chinese
+Others: かんこくご / kankokugo / Korean
+
+Initial/General: ばんごう / bangoo / number
+Initial/General: *なん/なに / nan/nani / what
+Initial/General: *あのう / anoo / well
+Initial/General: *そうですか / soo desu ka / I see
+
+Expressions: はい / hai / yes
+Expressions: いいえ / iie / no
+Expressions: そうですね / soo desu ne / let me see
+Expressions: わかりました / wakarimashita / I understand
+
+Countries: イギリス / Igirisu / Britain
+Countries: オーストラリア / Oosutoraria / Australia
+Countries: かんこく / Kankoku / Korea
+Countries: スウェーデン / Suweeden / Sweden
+Countries: ちゅうごく / Chuugoku / China
+Countries: にほん / Nihon / Japan
+Countries: ブラジル / Burajiru / Brazil
+Countries: メキシコ / Mekishiko / Mexico
+
+Majors: けいざい / keezai / economics
+Majors: コンピューター / konpyuutaa / computer
+Majors: じんるいがく / jinruigaku / anthropology
+Majors: せいじ / seeji / politics
+Majors: ぶんがく / bungaku / literature
+Majors: れきし / rekishi / history
+Majors: しごと / shigoto / job
+Majors: いしゃ / isha / doctor
+
+Occupations: いしゃ / isha / doctor
+
+Occupations (implicit): かんごし / kangoshi / nurse
+Occupations (implicit): こうこうせい / kookoosee / high school student
+Occupations (implicit): しゅふ / shufu / housewife
+Occupations (implicit): だいがくいんせい / daigakuinsee / graduate student
+Occupations (implicit): べんごし / bengoshi / lawyer
+
+Family: おかあさん / okaasan / mother
+Family: おとうさん / otoosan / father
+Family: おねえさん / oneesan / older sister
+Family: おにいさん / oniisan / older brother
+Family: いもうと / imooto / younger sister
+Family: おとうと / otooto / younger brother
