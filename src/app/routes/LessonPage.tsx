@@ -1,31 +1,39 @@
 import { useNavigate, useParams } from "react-router-dom";
+import { PageShell } from "../components/layout/PageShell";
+import { Button } from "../components/ui/Button";
+import { MutedText } from "../components/ui/Typography";
 
 export function LessonPage() {
   const navigate = useNavigate();
   const { lessonId } = useParams();
 
   return (
-    <div className="space-y-4">
-      <button type="button" className="text-sm text-gray-600 underline" onClick={() => navigate("/")}>
-        ← Back to home
-      </button>
-      <h1 className="text-3xl font-bold">Lesson {lessonId}</h1>
+    <PageShell
+      title={`Lesson ${lessonId}`}
+      headerRight={
+        <Button size="sm" variant="ghost" onClick={() => navigate("/")}>
+          ← Home
+        </Button>
+      }
+    >
+      <section className="space-y-2">
+        <MutedText>Choose how you want to study this lesson.</MutedText>
+        <div className="flex flex-wrap gap-3">
+          <Button
+            variant="primary"
+            onClick={() => navigate(`/study/${lessonId}/flashcard`)}
+          >
+            Flashcards
+          </Button>
 
-      <div className="space-x-2">
-        <button
-          className="rounded-lg border px-4 py-2"
-          onClick={() => navigate(`/study/${lessonId}/flashcard`)}
-        >
-          Flashcards
-        </button>
-
-        <button
-          className="rounded-lg border px-4 py-2"
-          onClick={() => navigate(`/study/${lessonId}/multiple-choice`)}
-        >
-          Multiple Choice
-        </button>
-      </div>
-    </div>
+          <Button
+            variant="secondary"
+            onClick={() => navigate(`/study/${lessonId}/multiple-choice`)}
+          >
+            Multiple choice
+          </Button>
+        </div>
+      </section>
+    </PageShell>
   );
 }

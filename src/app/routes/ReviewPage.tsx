@@ -3,6 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { getAllItems } from "../../data";
 import { getReviewItems } from "../../features/review/reviewService";
 import type { StudyItem } from "../../types/study";
+import { PageShell } from "../components/layout/PageShell";
+import { Button } from "../components/ui/Button";
+import { Badge } from "../components/ui/Badge";
+import { Card, CardBody } from "../components/ui/Card";
+import { MutedText } from "../components/ui/Typography";
 
 export function ReviewPage() {
   const navigate = useNavigate();
@@ -12,48 +17,72 @@ export function ReviewPage() {
     getReviewItems(getAllItems()).then(setItems);
   }, []);
 
-  return (
-    <div className="space-y-4">
-      <button type="button" className="text-sm text-gray-600 underline" onClick={() => navigate("/")}>
-        ← Back to home
-      </button>
-      <h1 className="text-3xl font-bold">Review Missed Items</h1>
+  const hasItems = items.length > 0;
 
-      {items.length === 0 ? (
-        <p className="text-gray-600">No missed items yet.</p>
+  return (
+    <PageShell
+      title="Review missed items"
+      headerRight={
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => navigate("/")}
+        >
+          ← Back home
+        </Button>
+      }
+    >
+      {!hasItems ? (
+        <Card>
+          <CardBody className="space-y-2">
+            <h2 className="font-display text-lg text-text">Nothing to review 🎉</h2>
+            <MutedText>Keep studying lessons and we will queue up anything you miss.</MutedText>
+          </CardBody>
+        </Card>
       ) : (
         <>
-          <p className="text-gray-600">
-            {items.length} item{items.length !== 1 ? "s" : ""} to review. Study them below or start a session.
-          </p>
-          <div className="flex flex-wrap gap-2">
-            <button
-              className="rounded-lg border px-4 py-2"
-              onClick={() => navigate("/study/review/flashcard")}
-            >
-              Study with flashcards
-            </button>
-            <button
-              className="rounded-lg border px-4 py-2"
-              onClick={() => navigate("/study/review/multiple-choice")}
-            >
-              Study with multiple choice
-            </button>
-          </div>
-          <ul className="space-y-2">
+          <section className="space-y-3">
+            <div className="flex items-center justify-between gap-3">
+              <MutedText>
+                {items.length} item{items.length !== 1 ? "s" : ""} waiting in your queue.
+              </MutedText>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  size="sm"
+                  variant="primary"
+                  onClick={() => navigate("/study/review/flashcard")}
+                >
+                  Flashcards
+                </Button>
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => navigate("/study/review/multiple-choice")}
+                >
+                  Multiple choice
+                </Button>
+              </div>
+            </div>
+          </section>
+
+          <ul className="mt-2 space-y-2">
             {items.map((item) => (
-              <li key={item.id} className="rounded-lg border p-3">
-                <span className="mb-2 inline-block rounded bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
-                  Lesson {item.lesson}
-                </span>
-                <div className="font-semibold">{item.promptJa}</div>
-                <div className="text-sm text-gray-600">{item.kana}</div>
-                <div>{item.answerEn}</div>
+              <li key={item.id}>
+                <Card className="px-3 py-3">
+                  <CardBody className="space-y-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <Badge>Lesson {item.lesson}</Badge>
+                    </div>
+                    <div className="text-base font-semibold text-text">{item.promptJa}</div>
+                    <MutedText>{item.kana}</MutedText>
+                    <div className="text-sm text-text">{item.answerEn}</div>
+                  </CardBody>
+                </Card>
               </li>
             ))}
           </ul>
         </>
       )}
-    </div>
+    </PageShell>
   );
 }

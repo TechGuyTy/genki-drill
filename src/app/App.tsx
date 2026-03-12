@@ -6,13 +6,15 @@ import { ReviewPage } from "./routes/ReviewPage";
 
 export default function App() {
   return (
-    <HashRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/lessons/:lessonId" element={<LessonPage />} />
-        <Route path="/study/:lessonId/:mode" element={<StudyPage />} />
-        <Route path="/review" element={<ReviewPage />} />
-      </Routes>
-    </HashRouter>
+    <div className="app-shell font-sans text-text">
+      <HashRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/lessons/:lessonId" element={<LessonPage />} />
+          <Route path="/study/:lessonId/:mode" element={<StudyPage />} />
+          <Route path="/review" element={<ReviewPage />} />
+        </Routes>
+      </HashRouter>
+    </div>
   );
 }

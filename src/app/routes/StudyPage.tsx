@@ -7,6 +7,9 @@ import { recordAttempt } from "../../features/progress/progressService";
 import { addIncorrectItemToReview, getReviewItems, removeFromReviewQueue } from "../../features/review/reviewService";
 import { buildMultipleChoiceQuestion } from "../../features/study/studyEngine";
 import type { StudyItem } from "../../types/study";
+import { PageShell } from "../components/layout/PageShell";
+import { Button } from "../components/ui/Button";
+import { MutedText } from "../components/ui/Typography";
 
 export function StudyPage() {
   const navigate = useNavigate();
@@ -36,32 +39,49 @@ export function StudyPage() {
 
   if (isLoadingReview) {
     return (
-      <div className="space-y-4">
-        <button type="button" className="text-sm text-gray-600 underline" onClick={() => navigate("/review")}>
-          ← Back to review
-        </button>
-        <p className="text-gray-600">Loading review items…</p>
-      </div>
+      <PageShell
+        title="Loading review…"
+        headerRight={
+          <Button size="sm" variant="ghost" onClick={() => navigate("/review")}>
+            ← Back to review
+          </Button>
+        }
+      >
+        <MutedText>Fetching your review queue.</MutedText>
+      </PageShell>
     );
   }
 
   if (!item) {
     return (
-      <div className="space-y-4">
-        <button type="button" className="text-sm text-gray-600 underline" onClick={() => navigate("/")}>
-          ← Back to home
-        </button>
-        <p>{isReviewMode ? "No more items to review. Great job!" : "No more items in this lesson. Great job!"}</p>
-        {isReviewMode ? (
-          <button className="rounded-lg border px-4 py-2" onClick={() => navigate("/review")}>
-            Back to review
-          </button>
-        ) : (
-          <button className="rounded-lg border px-4 py-2" onClick={() => navigate(`/lessons/${lessonId}`)}>
-            Back to Lesson {lessonId}
-          </button>
-        )}
-      </div>
+      <PageShell
+        title="All done!"
+        headerRight={
+          <Button size="sm" variant="ghost" onClick={() => navigate("/")}>
+            ← Home
+          </Button>
+        }
+      >
+        <MutedText>
+          {isReviewMode
+            ? "No more items to review. Great job!"
+            : "No more items in this lesson. Great job!"}
+        </MutedText>
+        <div className="flex flex-wrap gap-2">
+          {isReviewMode ? (
+            <Button variant="primary" onClick={() => navigate("/review")}>
+              Back to review
+            </Button>
+          ) : (
+            <Button
+              variant="primary"
+              onClick={() => navigate(`/lessons/${lessonId}`)}
+            >
+              Back to Lesson {lessonId}
+            </Button>
+          )}
+        </div>
+      </PageShell>
     );
   }
 
@@ -79,21 +99,38 @@ export function StudyPage() {
     setIndex((value) => value + 1);
   }
 
-  return (
-    <div className="space-y-4">
-      <button
-        type="button"
-        className="text-sm text-gray-600 underline"
-        onClick={() => navigate(isReviewMode ? "/review" : `/lessons/${lessonId}`)}
-      >
-        ← Back to {isReviewMode ? "review" : "lesson"}
-      </button>
-      <h1 className="text-2xl font-bold">
-        {isReviewMode ? "Review" : `Lesson ${lessonId}`} · {mode}
-      </h1>
+  const titlePrefix = isReviewMode ? "Review" : `Lesson ${lessonId}`;
 
-      <div className="text-sm text-gray-600">
-        Item {index + 1} / {items.length}
+  return (
+    <PageShell
+      title={`${titlePrefix} · ${mode}`}
+      headerRight={
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => navigate(isReviewMode ? "/review" : `/lessons/${lessonId}`)}
+        >
+          ← Back
+        </Button>
+      }
+    >
+      <div className="space-y-2">
+        <MutedText>
+          Item {index + 1} / {items.length}
+        </MutedText>
+
+        {items.length > 1 && (
+          <div className="flex items-center gap-3">
+            <input
+              type="range"
+              min={0}
+              max={items.length - 1}
+              value={index}
+              onChange={(event) => setIndex(Number(event.target.value))}
+              className="flex-1 accent-accent"
+            />
+          </div>
+        )}
       </div>
 
       {mode === "flashcard" && <FlashcardCard item={item} />}
@@ -106,11 +143,21 @@ export function StudyPage() {
         />
       )}
 
-      {mode === "flashcard" && (
-        <button className="rounded-lg border px-4 py-2" onClick={() => setIndex((value) => value + 1)}>
+      <div className="flex justify-between gap-3">
+        <Button
+          variant="secondary"
+          disabled={index === 0}
+          onClick={() => setIndex((value) => Math.max(0, value - 1))}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="primary"
+          onClick={() => setIndex((value) => value + 1)}
+        >
           Next
-        </button>
-      )}
-    </div>
+        </Button>
+      </div>
+    </PageShell>
   );
 }

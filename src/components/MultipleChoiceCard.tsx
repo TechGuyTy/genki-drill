@@ -1,5 +1,8 @@
 import { useState } from "react";
 import type { MultipleChoiceQuestion } from "../types/study";
+import { Card, CardBody, CardFooter, CardHeader } from "../app/components/ui/Card";
+import { Button } from "../app/components/ui/Button";
+import { MutedText } from "../app/components/ui/Typography";
 
 type Props = {
   question: MultipleChoiceQuestion;
@@ -21,31 +24,54 @@ export function MultipleChoiceCard({ question, onAnswered }: Props) {
   const wasCorrect = locked && selected === question.correctAnswer;
 
   return (
-    <div className="rounded-xl border p-4">
-      <div className="mb-2 text-2xl font-bold">{question.prompt}</div>
-      <div className="mb-4 text-sm text-gray-600">
-        {locked ? (wasCorrect ? "Correct! Next question in a moment…" : "Incorrect. Next question in a moment…") : "Choose the correct meaning"}
-      </div>
+    <Card>
+      <CardHeader className="flex-col items-start gap-2">
+        <div className="text-2xl font-bold text-text">{question.prompt}</div>
+        <MutedText>
+          {locked
+            ? wasCorrect
+              ? "Correct! Next question in a moment…"
+              : "Incorrect. Next question in a moment…"
+            : "Choose the correct meaning"}
+        </MutedText>
+      </CardHeader>
 
-      <div className="space-y-2">
+      <CardBody className="space-y-2">
         {question.options.map((option) => {
           const isCorrect = option === question.correctAnswer;
           const isSelected = option === selected;
 
+          const stateClasses =
+            locked && isSelected && isCorrect
+              ? "border-success/80 bg-success/5"
+              : locked && isSelected && !isCorrect
+              ? "border-accent/70 bg-accent-soft/10"
+              : locked && !isSelected && isCorrect
+              ? "border-success/80 bg-success/5"
+              : "border-subtle/80 hover:border-accent/70 hover:bg-surface-muted/70";
+
           return (
-            <button
+            <Button
               key={option}
-              className="block w-full rounded-lg border px-4 py-2 text-left"
+              type="button"
+              variant="secondary"
+              size="md"
+              className={`block w-full justify-between text-left ${stateClasses}`}
               onClick={() => handleSubmit(option)}
             >
-              {option}
-              {locked && isSelected && isCorrect ? " ✅" : ""}
-              {locked && isSelected && !isCorrect ? " ❌" : ""}
-              {locked && !isSelected && isCorrect ? " ✅" : ""}
-            </button>
+              <span>{option}</span>
+              {locked && isSelected && isCorrect && <span>✅</span>}
+              {locked && isSelected && !isCorrect && <span>❌</span>}
+              {locked && !isSelected && isCorrect && <span>✅</span>}
+            </Button>
           );
         })}
-      </div>
-    </div>
+      </CardBody>
+      <CardFooter className="justify-between">
+        <MutedText className="text-xs">
+          Tap once to lock in your answer.
+        </MutedText>
+      </CardFooter>
+    </Card>
   );
 }

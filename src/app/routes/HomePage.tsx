@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { LessonCard } from "../../components/LessonCard";
 import { getLessonIds } from "../../data";
 import { getReviewCount } from "../../features/review/reviewService";
+import { PageShell } from "../components/layout/PageShell";
+import { Button } from "../components/ui/Button";
+import { MutedText, SectionTitle } from "../components/ui/Typography";
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -13,24 +16,41 @@ export function HomePage() {
     getReviewCount().then(setReviewCount);
   }, []);
 
+  const reviewLabel =
+    reviewCount !== null && reviewCount > 0
+      ? `Review ${reviewCount} missed item${reviewCount !== 1 ? "s" : ""}`
+      : "Review missed items";
+
   return (
-    <div className="space-y-4">
-      <h1 className="text-3xl font-bold">Konnichiwassup!</h1>
+    <PageShell
+      title="Konnichiwassup!"
+      headerRight={
+        <MutedText className="hidden text-xs md:inline">
+          Tiny daily reviews add up quickly.
+        </MutedText>
+      }
+    >
+      <section className="space-y-2">
+        <SectionTitle>Lessons</SectionTitle>
+        <MutedText>Work through each lesson, then drill what you miss.</MutedText>
+      </section>
 
-      {lessonIds.map((id) => (
-        <LessonCard
-          key={id}
-          title={`Lesson ${id}`}
-          description="Vocab review and quick quiz"
-          onOpen={() => navigate(`/lessons/${id}`)}
-        />
-      ))}
+      <div className="space-y-3">
+        {lessonIds.map((id) => (
+          <LessonCard
+            key={id}
+            title={`Lesson ${id}`}
+            description="Vocab review and quick quiz"
+            onOpen={() => navigate(`/lessons/${id}`)}
+          />
+        ))}
+      </div>
 
-      <button className="rounded-lg border px-4 py-2" onClick={() => navigate("/review")}>
-        {reviewCount !== null && reviewCount > 0
-          ? `Review ${reviewCount} missed item${reviewCount !== 1 ? "s" : ""}`
-          : "Review missed items"}
-      </button>
-    </div>
+      <div className="mt-4 flex justify-end">
+        <Button variant="primary" onClick={() => navigate("/review")}>
+          {reviewLabel}
+        </Button>
+      </div>
+    </PageShell>
   );
 }
