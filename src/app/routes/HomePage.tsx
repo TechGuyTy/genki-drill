@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LessonCard } from "../../components/LessonCard";
-import { getLessonIds } from "../../data";
+import { getCoreLessons, getKanaLessons } from "../../data";
 import { getReviewCount } from "../../features/review/reviewService";
 import { PageShell } from "../components/layout/PageShell";
 import { Button } from "../components/ui/Button";
@@ -10,7 +10,8 @@ import { MutedText, SectionTitle } from "../components/ui/Typography";
 export function HomePage() {
   const navigate = useNavigate();
   const [reviewCount, setReviewCount] = useState<number | null>(null);
-  const lessonIds = getLessonIds();
+  const coreLessons = getCoreLessons();
+  const kanaLessons = getKanaLessons();
 
   useEffect(() => {
     getReviewCount().then(setReviewCount);
@@ -36,12 +37,28 @@ export function HomePage() {
       </section>
 
       <div className="space-y-3">
-        {lessonIds.map((id) => (
+        {coreLessons.map((lesson) => (
           <LessonCard
-            key={id}
-            title={`Lesson ${id}`}
-            description="Vocab review and quick quiz"
-            onOpen={() => navigate(`/lessons/${id}`)}
+            key={lesson.id}
+            title={lesson.title}
+            description={lesson.description ?? "Vocab review and quick quiz"}
+            onOpen={() => navigate(`/lessons/${lesson.id}`)}
+          />
+        ))}
+      </div>
+
+      <section className="mt-6 space-y-2">
+        <SectionTitle>Kana basics</SectionTitle>
+        <MutedText>Master hiragana and katakana from scratch or refresh your memory.</MutedText>
+      </section>
+
+      <div className="space-y-3">
+        {kanaLessons.map((lesson) => (
+          <LessonCard
+            key={lesson.id}
+            title={lesson.title}
+            description={lesson.description ?? "Learn and drill the Japanese syllabary."}
+            onOpen={() => navigate(`/lessons/${lesson.id}`)}
           />
         ))}
       </div>
