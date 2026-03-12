@@ -1,0 +1,48 @@
+import type { StudyItem } from "../../types/study";
+
+export const lesson1: StudyItem[] = [
+  {
+    id: "l1-gakusei",
+    lesson: 1,
+    category: "vocab",
+    promptJa: "学生",
+    kana: "がくせい",
+    romaji: "gakusei",
+    answerEn: "student",
+    distractors: ["teacher", "doctor", "company employee"],
+    tags: ["lesson1", "noun"],
+  },
+  {
+    id: "l1-sensei",
+    lesson: 1,
+    category: "vocab",
+    promptJa: "先生",
+    kana: "せんせい",
+    romaji: "sensei",
+    answerEn: "teacher",
+    distractors: ["student", "friend", "lawyer"],
+    tags: ["lesson1", "noun"],
+  },
+  {
+    id: "l1-amerikajin",
+    lesson: 1,
+    category: "vocab",
+    promptJa: "アメリカ人",
+    kana: "あめりかじん",
+    romaji: "amerikajin",
+    answerEn: "American person",
+    distractors: ["Japanese person", "college student", "international student"],
+    tags: ["lesson1", "noun"],
+  },
+  {
+    id: "l1-daigaku",
+    lesson: 1,
+    category: "vocab",
+    promptJa: "大学",
+    kana: "だいがく",
+    romaji: "daigaku",
+    answerEn: "college; university",
+    distractors: ["high school", "classroom", "book"],
+    tags: ["lesson1", "noun"],
+  },
+];
