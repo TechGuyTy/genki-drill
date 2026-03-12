@@ -6,6 +6,9 @@ export function LessonPage() {
 
   return (
     <div className="space-y-4">
+      <button type="button" className="text-sm text-gray-600 underline" onClick={() => navigate("/")}>
+        ← Back to home
+      </button>
       <h1 className="text-3xl font-bold">Lesson {lessonId}</h1>
 
       <div className="space-x-2">

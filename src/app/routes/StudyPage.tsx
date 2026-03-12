@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FlashcardCard } from "../../components/FlashcardCard";
 import { MultipleChoiceCard } from "../../components/MultipleChoiceCard";
 import { lesson1 } from "../../data/lessons/lesson1";
@@ -8,6 +8,7 @@ import { addIncorrectItemToReview } from "../../features/review/reviewService";
 import { buildMultipleChoiceQuestion } from "../../features/study/studyEngine";
 
 export function StudyPage() {
+  const navigate = useNavigate();
   const { lessonId, mode } = useParams();
   const [index, setIndex] = useState(0);
 
@@ -19,7 +20,17 @@ export function StudyPage() {
   const item = items[index];
 
   if (!item) {
-    return <div>No more items in this lesson.</div>;
+    return (
+      <div className="space-y-4">
+        <button type="button" className="text-sm text-gray-600 underline" onClick={() => navigate("/")}>
+          ← Back to home
+        </button>
+        <p>No more items in this lesson. Great job!</p>
+        <button className="rounded-lg border px-4 py-2" onClick={() => navigate(`/lessons/${lessonId}`)}>
+          Back to Lesson {lessonId}
+        </button>
+      </div>
+    );
   }
 
   async function handleAnswered(_: string, wasCorrect: boolean) {
@@ -29,11 +40,16 @@ export function StudyPage() {
       await addIncorrectItemToReview(item.id);
     }
 
+    // Let the user see ✅/❌ feedback before advancing to the next question
+    await new Promise((resolve) => setTimeout(resolve, 1200));
     setIndex((value) => value + 1);
   }
 
   return (
     <div className="space-y-4">
+      <button type="button" className="text-sm text-gray-600 underline" onClick={() => navigate(`/lessons/${lessonId}`)}>
+        ← Back to lesson
+      </button>
       <h1 className="text-2xl font-bold">
         Lesson {lessonId} · {mode}
       </h1>
@@ -46,6 +62,7 @@ export function StudyPage() {
 
       {mode === "multiple-choice" && (
         <MultipleChoiceCard
+          key={item.id}
           question={buildMultipleChoiceQuestion(item)}
           onAnswered={handleAnswered}
         />

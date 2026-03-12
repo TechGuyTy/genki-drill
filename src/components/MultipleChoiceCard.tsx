@@ -18,10 +18,14 @@ export function MultipleChoiceCard({ question, onAnswered }: Props) {
     onAnswered(option, option === question.correctAnswer);
   }
 
+  const wasCorrect = locked && selected === question.correctAnswer;
+
   return (
     <div className="rounded-xl border p-4">
       <div className="mb-2 text-2xl font-bold">{question.prompt}</div>
-      <div className="mb-4 text-sm text-gray-600">Choose the correct meaning</div>
+      <div className="mb-4 text-sm text-gray-600">
+        {locked ? (wasCorrect ? "Correct! Next question in a moment…" : "Incorrect. Next question in a moment…") : "Choose the correct meaning"}
+      </div>
 
       <div className="space-y-2">
         {question.options.map((option) => {

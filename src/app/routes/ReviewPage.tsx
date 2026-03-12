@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { lesson1 } from "../../data/lessons/lesson1";
 import { getReviewItems } from "../../features/review/reviewService";
 import type { StudyItem } from "../../types/study";
 
 export function ReviewPage() {
+  const navigate = useNavigate();
   const [items, setItems] = useState<StudyItem[]>([]);
 
   useEffect(() => {
@@ -12,6 +14,9 @@ export function ReviewPage() {
 
   return (
     <div className="space-y-4">
+      <button type="button" className="text-sm text-gray-600 underline" onClick={() => navigate("/")}>
+        ← Back to home
+      </button>
       <h1 className="text-3xl font-bold">Review Missed Items</h1>
 
       {items.length === 0 ? (
