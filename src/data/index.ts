@@ -2,6 +2,7 @@ import type { StudyItem } from "../types/study";
 import { lesson1 } from "./lessons/lesson1";
 import { lesson2 } from "./lessons/lesson2";
 import { lesson3 } from "./lessons/lesson3";
+import { lesson4 } from "./lessons/lesson4";
 import { hiraganaKanaItems } from "./kana/hiragana";
 import { katakanaKanaItems } from "./kana/katakana";
 
@@ -9,6 +10,7 @@ const lessons: Record<string, StudyItem[]> = {
   "1": lesson1,
   "2": lesson2,
   "3": lesson3,
+  "4": lesson4,
   "100": hiraganaKanaItems,
   "101": katakanaKanaItems,
 };
@@ -40,6 +42,12 @@ const lessonMeta: LessonMeta[] = [
     kind: "core",
     title: "Lesson 3",
     description: "Core vocab and expressions, Chapter 3.",
+  },
+  {
+    id: "4",
+    kind: "core",
+    title: "Lesson 4",
+    description: "Core vocab and expressions, Chapter 4.",
   },
   {
     id: "100",
