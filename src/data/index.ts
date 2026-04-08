@@ -22,6 +22,7 @@ export type LessonMeta = {
   kind: LessonKind;
   title: string;
   description?: string;
+  isNew?: boolean;
 };
 
 const lessonMeta: LessonMeta[] = [
@@ -48,6 +49,7 @@ const lessonMeta: LessonMeta[] = [
     kind: "core",
     title: "Lesson 4",
     description: "Core vocab and expressions, Chapter 4.",
+    isNew: true,
   },
   {
     id: "100",

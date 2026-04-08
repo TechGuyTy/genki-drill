@@ -42,6 +42,7 @@ export function HomePage() {
             key={lesson.id}
             title={lesson.title}
             description={lesson.description ?? "Vocab review and quick quiz"}
+            showNew={Boolean(lesson.isNew)}
             onOpen={() => navigate(`/lessons/${lesson.id}`)}
           />
         ))}
